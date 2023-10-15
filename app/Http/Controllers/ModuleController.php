@@ -10,11 +10,21 @@ use App\Models\User;
 
 class ModuleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $modules = Module::with('course')->get();
-        return view('modules.index', compact('modules'));
+        $course_id = $request->get('course_id');
+
+        $query = Module::with('course');
+
+        if ($course_id) {
+            $query->where('course_id', $course_id);
+        }
+
+        $modules = $query->get();
+        $courses = Course::all();
+        return view('modules.index', compact('modules', 'courses'));
     }
+
 
     public function create()
     {

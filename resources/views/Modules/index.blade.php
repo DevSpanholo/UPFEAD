@@ -7,6 +7,21 @@
         <h1 class="mb-0">Listagem de Módulos</h1>
         <a href="{{ route('modules.create') }}" class="btn btn-primary">Adicionar Módulo</a>
     </div>
+    
+    <!-- Código do Filtro -->
+    <form action="{{ route('modules.index') }}" method="GET" class="mb-3 mt-3">
+        <div class="d-flex align-items-center">
+            <select name="course_id" class="form-control mr-2">
+                <option value="">Todos os Cursos</option>
+                @foreach($courses as $course)
+                    <option value="{{ $course->id }}" {{ request('course_id') == $course->id ? 'selected' : '' }}>{{ $course->name }}</option>
+                @endforeach
+            </select>
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+    </form>
+    <!-- Fim do Código do Filtro -->
+
     <hr />
     @if(Session::has('success'))
         <div class="alert alert-success" role="alert">
@@ -19,7 +34,7 @@
                 <th>#</th>
                 <th>Nome</th>
                 <th>Descrição</th>
-                <th>Curso</th> <!-- Adicionado o campo Curso -->
+                <th>Curso</th>
                 <th>Ação</th>
             </tr>
         </thead>

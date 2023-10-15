@@ -5,7 +5,7 @@
 @section('contents')
     <h1 class="mb-0">Adicionar Módulo</h1>
     <hr />
-    <form action="{{ route('modules.create') }}" method="POST">
+    <form action="{{ route('modules.store') }}" method="POST">
         @csrf
         <div class="row mb-3">
             <div class="col">
