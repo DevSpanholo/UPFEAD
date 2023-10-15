@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\ModuleController;
 
 
 /*
@@ -53,8 +54,7 @@ Route::middleware('auth')->group(function () {
 
         // Rotas específicas para alunos
     Route::middleware('checkRole:Aluno')->group(function () {
-            // As rotas para criação e armazenamento de matrículas já estão incluídas no Route::resource acima.
-            // Portanto, você não precisa repeti-las aqui.
+        
         });
 
 
@@ -62,4 +62,16 @@ Route::middleware('auth')->group(function () {
 
     Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::middleware(['auth', 'checkRole:Professor,Administração'])->group(function () {
+        Route::get('modules', [ModuleController::class, 'index'])->name('modules.index');
+        Route::get('modules/create', [ModuleController::class, 'create'])->name('modules.create');
+        Route::post('modules/store', [ModuleController::class, 'store'])->name('modules.store');
+        Route::get('modules/edit/{id}', [ModuleController::class, 'edit'])->name('modules.edit');
+        Route::put('modules/edit/{id}', [ModuleController::class, 'update'])->name('modules.update');
+        Route::delete('modules/destroy/{id}', [ModuleController::class, 'destroy'])->name('modules.destroy');
+        Route::get('/modules/{id}', 'ModuleController@show')->name('modules.show');
+
+    });
+    
 });
