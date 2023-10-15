@@ -30,13 +30,10 @@
                         <td class="align-middle">{{ $enrollment->id }}</td>
                         <td class="align-middle">{{ $enrollment->course->name ?? 'N/A' }}</td>
                         <td class="align-middle">{{ $enrollment->student->username ?? 'N/A' }}</td>
-
-
                         <td class="align-middle">{{ $enrollment->created_at }}</td>
                         <td class="align-middle">
                             <div class="btn-group" role="group" aria-label="Basic example">
                                 <a href="{{ route('enrollments.show', $enrollment->id) }}" type="button" class="btn btn-secondary">Detalhes</a>
-                                <!-- Não sei se você possui a rota de edição para matrículas, mas se tiver, pode descomentar a linha abaixo -->
                                 <a href="{{ route('enrollments.edit', $enrollment->id) }}" type="button" class="btn btn-warning">Editar</a>
                                 <form action="{{ route('enrollments.destroy', $enrollment->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar?')">
                                     @csrf

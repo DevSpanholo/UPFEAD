@@ -4,17 +4,17 @@
 
 @section('contents')
     <h1 class="mb-0">Detalhes da Matrícula</h1>
-    <hr />
-    <div class="row">
-        <div class="col mb-3">
-            <label class="form-label">Curso</label>
-            <input type="text" class="form-control" value="{{ $enrollment->course->name }}" readonly>
-        </div>
-    </div>
+    <hr />    
     <div class="row">
         <div class="col mb-3">
             <label class="form-label">Aluno</label>
             <input type="text" class="form-control" value="{{ $enrollment->student->username }}" readonly>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mb-3">
+            <label class="form-label">Curso</label>
+            <input type="text" class="form-control" value="{{ $enrollment->course->name }}" readonly>
         </div>
     </div>
     <div class="row">
