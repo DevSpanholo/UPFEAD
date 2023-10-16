@@ -17,6 +17,13 @@
   
   <!-- Custom styles for this template-->
   <link href="{{ asset('admin_assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+  <style>
+body, html {
+    overflow-y: auto !important;
+}
+</style>
+
 </head>
 <body id="page-top">
   <!-- Page Wrapper -->
