@@ -31,6 +31,13 @@
   </li>
 
   <li class="nav-item">
+    <a class="nav-link" href="{{ route('lessons.create') }}">
+      <i class="fas fa-chalkboard-teacher"></i> 
+      <span>Aula</span>
+    </a>
+  </li>
+
+  <li class="nav-item">
     <a class="nav-link" href="{{ route('enrollments.index') }}">
       <i class="fas fa-clipboard-list"></i> 
       <span>Matrículas</span></a>

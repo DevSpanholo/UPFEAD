@@ -5,6 +5,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\SlideController;
+use App\Http\Controllers\LessonController;
+
 
 
 /*
@@ -73,6 +76,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('modules/destroy/{id}', [ModuleController::class, 'destroy'])->name('modules.destroy');
     Route::get('modules/{id}', [ModuleController::class, 'show'])->name('modules.show');
 });
+
+Route::resource('lessons', LessonController::class);
+
+Route::resource('slides', SlideController::class);
+
+
+
 
     
 });
