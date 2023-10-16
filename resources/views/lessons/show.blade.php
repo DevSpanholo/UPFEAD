@@ -13,18 +13,18 @@
     </div>
     <div class="row">
         <div class="col mb-3">
-            <label class="form-label">Descrição</label>
-            <textarea class="form-control" rows="3" readonly>{{ $lesson->description }}</textarea>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col mb-3">
             <label class="form-label">Curso</label>
             <input type="text" class="form-control" value="{{ $lesson->course->name }}" readonly>
         </div>
         <div class="col mb-3">
             <label class="form-label">Módulo</label>
             <input type="text" class="form-control" value="{{ $lesson->module->name }}" readonly>
+        </div>        
+    </div>
+    <div class="col mb-3">
+        <label class="form-label">Conteúdo (material de apoio)</label>
+        <div class="form-control content-display" style="height:300px; overflow:auto;"> 
+            {!! $lesson->description !!}
         </div>
     </div>
     <div class="row">

@@ -13,7 +13,7 @@
     </div>
 
     <div class="form-group">
-        <label for="description">Descrição (opcional):</label>
+        <label for="description">Conteúdo (material de apoio):</label>
         <textarea name="description" id="description" class="form-control"></textarea>
     </div>
 
@@ -48,8 +48,13 @@
     
 </form>
 
+
+<script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    CKEDITOR.replace('description');
+
     document.getElementById('course_id').addEventListener('change', function() {
         const selectedCourseId = this.value;
         const moduleOptions = document.querySelectorAll('#module_id option');
@@ -65,7 +70,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('module_id').value = '';
     });
 });
-
 </script>
 
 

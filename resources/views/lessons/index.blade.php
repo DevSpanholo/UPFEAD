@@ -18,7 +18,7 @@
             <tr>
                 <th>#</th>
                 <th>Título</th>
-                <th>Descrição</th>
+                <th>Conteúdo</th>
                 <th>Curso</th>
                 <th>Módulo</th>
                 <th>Ações</th>
@@ -26,26 +26,32 @@
         </thead>
         <tbody>
         @if($lessons->count() > 0)
-            @foreach($lessons as $lesson)
-                <tr>
-                    <td class="align-middle">{{ $lesson->id }}</td>
-                    <td class="align-middle">{{ $lesson->title }}</td>
-                    <td class="align-middle">{{ $lesson->description ?? 'N/A' }}</td>
-                    <td class="align-middle">{{ $lesson->course->name ?? 'N/A' }}</td>
-                    <td class="align-middle">{{ $lesson->module->name ?? 'N/A' }}</td>
-                    <td class="align-middle">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <a href="{{ route('lessons.show', $lesson->id) }}" type="button" class="btn btn-secondary">Detalhes</a>
-                            <a href="{{ route('lessons.edit', $lesson->id) }}" type="button" class="btn btn-warning">Editar</a>
-                            <form action="{{ route('lessons.destroy', $lesson->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar?')">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger">Deletar</button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
+        @foreach($lessons as $lesson)
+            <tr>
+                <td class="align-middle">{{ $lesson->id }}</td>
+                <td class="align-middle">{{ $lesson->title }}</td>
+                <td class="align-middle">
+                    <a href="#" data-toggle="collapse" data-target="#desc-{{ $lesson->id }}">Mostrar Conteúdo</a>
+                    <div id="desc-{{ $lesson->id }}" class="collapse">
+                        {{ $lesson->description ?? 'N/A' }}
+                    </div>
+                </td>
+                <td class="align-middle">{{ $lesson->course->name ?? 'N/A' }}</td>
+                <td class="align-middle">{{ $lesson->module->name ?? 'N/A' }}</td>
+                <td class="align-middle">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a href="{{ route('lessons.show', $lesson->id) }}" type="button" class="btn btn-secondary">Detalhes</a>
+                        <a href="{{ route('lessons.edit', $lesson->id) }}" type="button" class="btn btn-warning">Editar</a>
+                        <form action="{{ route('lessons.destroy', $lesson->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar?')">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger">Deletar</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        @endforeach
+
         @else
             <tr>
                 <td class="text-center" colspan="6">Nenhuma aula encontrada.</td>

@@ -18,8 +18,8 @@
         
         <div class="row">
             <div class="col mb-3">
-                <label class="form-label">Descrição</label>
-                <textarea class="form-control" name="description" rows="3">{{ $lesson->description }}</textarea>
+                <label class="form-label">Conteúdo</label>
+                <textarea class="form-control" name="description" rows="3" style="height:300px;">{{ $lesson->description }}</textarea>
             </div>
         </div>
         
