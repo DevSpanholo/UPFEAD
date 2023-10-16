@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col mb-3">
                 <label class="form-label">Conteúdo</label>
-                <textarea class="form-control" name="description" rows="3" style="height:300px;">{{ $lesson->description }}</textarea>
+                <textarea name="description" id="description" class="form-control" rows="3" style="height:300px;">{{ $lesson->description }}</textarea>
             </div>
         </div>
         
@@ -52,4 +52,26 @@
             </div>
         </div>
     </form>
+    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    CKEDITOR.replace('description');
+
+    document.getElementById('course_id').addEventListener('change', function() {
+        const selectedCourseId = this.value;
+        const moduleOptions = document.querySelectorAll('#module_id option');
+
+        moduleOptions.forEach(option => {
+            if (option.getAttribute('data-course-id') === selectedCourseId) {
+                option.style.display = 'block';
+            } else {
+                option.style.display = 'none';
+            }
+        });
+
+        document.getElementById('module_id').value = '';
+    });
+});
+</script>
 @endsection

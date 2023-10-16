@@ -1,8 +1,9 @@
 <?php
 
+namespace Database\Seeders;
 use Illuminate\Database\Seeder;
-use App\Course;
-use App\User;
+use App\Models\Course;
+use App\Models\User;
 
 class CoursesTableSeeder extends Seeder
 {
