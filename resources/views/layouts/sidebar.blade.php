@@ -18,17 +18,21 @@
       <span>Dashboard</span></a>
   </li>
 
+  @if(auth()->user()->role == 'Administração' || auth()->user()->role == 'Professor')
   <li class="nav-item">
     <a class="nav-link" href="{{ route('courses') }}">
       <i class="fas fa-book"></i> 
       <span>Cursos</span></a>
   </li>
+  @endif
 
+  @if(auth()->user()->role == 'Administração' || auth()->user()->role == 'Professor')
   <li class="nav-item">
     <a class="nav-link" href="{{ route('modules.index') }}">
       <i class="fas fa-cube"></i> 
       <span>Módulos</span></a>
   </li>
+  @endif
 
   <li class="nav-item">
     <a class="nav-link" href="{{ route('lessons.index') }}">
@@ -37,11 +41,13 @@
     </a>
   </li>
 
+  @if(auth()->user()->role == 'Administração')
   <li class="nav-item">
     <a class="nav-link" href="{{ route('enrollments.index') }}">
       <i class="fas fa-clipboard-list"></i> 
       <span>Matrículas</span></a>
   </li>
+  @endif
 
   <li class="nav-item">
     <a class="nav-link" href="/profile">

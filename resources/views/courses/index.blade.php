@@ -1,3 +1,4 @@
+@if(auth()->user()->role == 'Administração')
 @extends('layouts.app')
 
 @section('title', 'Gerenciar cursos')
@@ -50,3 +51,4 @@
         </tbody>
     </table>
 @endsection
+@endif

@@ -1,3 +1,4 @@
+@if(auth()->user()->role == 'Administração')
 @extends('layouts.app')
 
 @section('title', 'Editar curso')
@@ -27,3 +28,4 @@
         </div>
     </form>
 @endsection
+@endif
