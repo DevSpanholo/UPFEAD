@@ -26,14 +26,24 @@ class LessonController extends Controller
 
 public function store(Request $request)
 {
-    $data = $request->validate([
+    $validatedData = $request->validate([
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
         'course_id' => 'required|exists:courses,id',
         'module_id' => 'required|exists:modules,id',
     ]);
 
-    Lesson::create($data);
+    if ($request->hasFile('file')) {
+        $filePath = $request->file('file')->store('materials');
+        $validatedData['file_path'] = $filePath;
+    }
+
+    if ($request->hasFile('video')) {
+        $videoPath = $request->file('video')->store('videos');
+        $validatedData['video_path'] = $videoPath;
+    }
+
+    Lesson::create($validatedData);
 
     return redirect()->route('lessons.index')->with('success', 'Aula criada com sucesso!');
 }
@@ -67,25 +77,35 @@ public function show($id)
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        $lesson = Lesson::findOrFail($id);
+{
+    $lesson = Lesson::findOrFail($id);
 
-        $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'nullable',
-            'course_id' => 'required|exists:courses,id',
-            'module_id' => 'required|exists:modules,id',
-        ]);
+    $request->validate([
+        'title' => 'required|max:255',
+        'description' => 'nullable',
+        'course_id' => 'required|exists:courses,id',
+        'module_id' => 'required|exists:modules,id',
+    ]);
 
-        $lesson->title = $request->input('title');
-        $lesson->description = $request->input('description');
-        $lesson->course_id = $request->input('course_id');
-        $lesson->module_id = $request->input('module_id');
-        
-        $lesson->save();
+    $lesson->title = $request->input('title');
+    $lesson->description = $request->input('description');
+    $lesson->course_id = $request->input('course_id');
+    $lesson->module_id = $request->input('module_id');
 
-        return redirect()->route('lessons.index')->with('success', 'Aula atualizada com sucesso!');
+    if ($request->hasFile('file')) {
+        $filePath = $request->file('file')->store('materials');
+        $lesson->file_path = $filePath;
     }
+
+    if ($request->hasFile('video')) {
+        $videoPath = $request->file('video')->store('videos');
+        $lesson->video_path = $videoPath;
+    }
+
+    $lesson->save();
+
+    return redirect()->route('lessons.index')->with('success', 'Aula atualizada com sucesso!');
+}
 
 
 }
