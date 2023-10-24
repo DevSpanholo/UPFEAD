@@ -28,21 +28,6 @@
                         <div class="mt-2 content-display" style="height:300px; overflow:auto;">
                             {!! $lesson->description !!}
                         </div>
-                        <td>
-                            @if($lesson->file_path)
-                                <a href="{{ Storage::url($lesson->file_path) }}" target="_blank">Baixar Material</a>
-                            @else
-                                Nenhum arquivo upado
-                            @endif
-                        </td>
-                
-                        <td>
-                            @if($lesson->video_path)
-                                <a href="{{ Storage::url($lesson->video_path) }}" target="_blank">Ver Vídeo</a>
-                            @else
-                                Nenhum vídeo upado
-                            @endif
-                        </td>
                         @if(auth()->user()->role == 'Professor')
                             <div class="mt-2">
                                 <a href="{{ route('lessons.edit', $lesson->id) }}" class="btn btn-sm btn-warning">Editar</a>
