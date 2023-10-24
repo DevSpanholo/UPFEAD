@@ -13,16 +13,23 @@
   <!-- Inicializando o reveal.js (criação de slieds)-->  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/css/reveal.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/css/theme/black.min.css">
-
+  
   
   <!-- Custom styles for this template-->
   <link href="{{ asset('admin_assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
+  
+
+  <script src="{{ mix('js/app.js') }}"></script>
+
 
   <style>
 body, html {
     overflow-y: auto !important;
 }
 </style>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+Z1plZ3Z5Pv7X1uLhwjy8T9Sz15m0n0L5Tz7Zt4=" crossorigin="anonymous"></script>
+
 
 </head>
 <body id="page-top">
