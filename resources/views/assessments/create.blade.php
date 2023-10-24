@@ -53,38 +53,39 @@
             </div>
         </template>
     @endsection
-    @push('scripts')
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const questionsContainer = document.getElementById('questions-container');
-                const addQuestionButton = document.getElementById('add-question');
-                const questionTemplate = document.getElementById('question-template').content;
-                const optionTemplate = document.getElementById('option-template').content;
-
-                addQuestionButton.addEventListener('click', function () {
-                    const questionClone = document.importNode(questionTemplate, true);
-                    const addOptionButton = questionClone.querySelector('.add-option');
-                    const optionsContainer = questionClone.querySelector('.options-container');
-                    const removeQuestionButton = questionClone.querySelector('.remove-question');
-
-                    addOptionButton.addEventListener('click', function () {
-                        const optionClone = document.importNode(optionTemplate, true);
-                        const removeOptionButton = optionClone.querySelector('.remove-option');
-
-                        removeOptionButton.addEventListener('click', function () {
-                            optionClone.remove();
-                        });
-
-                        optionsContainer.appendChild(optionClone);
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const questionsContainer = document.getElementById('questions-container');
+            const addQuestionButton = document.getElementById('add-question');
+            const questionTemplate = document.getElementById('question-template').content;
+            const optionTemplate = document.getElementById('option-template').content;
+    
+            addQuestionButton.addEventListener('click', function () {
+                const questionClone = document.importNode(questionTemplate, true);
+                const questionElement = questionClone.querySelector('.question');
+                const addOptionButton = questionElement.querySelector('.add-option');
+                const optionsContainer = questionElement.querySelector('.options-container');
+                const removeQuestionButton = questionElement.querySelector('.remove-question');
+    
+                addOptionButton.addEventListener('click', function () {
+                    const optionClone = document.importNode(optionTemplate, true);
+                    const optionElement = optionClone.querySelector('.option');
+                    const removeOptionButton = optionElement.querySelector('.remove-option');
+    
+                    removeOptionButton.addEventListener('click', function () {
+                        optionElement.remove();
                     });
-
-                    removeQuestionButton.addEventListener('click', function () {
-                        questionClone.remove();
-                    });
-
-                    questionsContainer.appendChild(questionClone);
+    
+                    optionsContainer.appendChild(optionElement);
                 });
+    
+                removeQuestionButton.addEventListener('click', function () {
+                    questionElement.remove();
+                });
+    
+                questionsContainer.appendChild(questionElement);
             });
-        </script>
-    @endpush
+        });
+    </script>
+    
 @endif

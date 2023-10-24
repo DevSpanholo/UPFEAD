@@ -14,12 +14,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/css/reveal.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/css/theme/black.min.css">
   
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   
   <!-- Custom styles for this template-->
   <link href="{{ asset('admin_assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
   
 
-  <script src="{{ mix('js/app.js') }}"></script>
+
+  <!-- Outros scripts e estilos -->
+<script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ mix('js/aulas.js') }}"></script>
+<script src="{{ mix('js/modulos.js') }}"></script>
 
 
   <style>
@@ -116,5 +121,8 @@ body, html {
       display: 'block',
     });
 </script>
+
+
+<script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>
