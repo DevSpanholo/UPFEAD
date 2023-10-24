@@ -7,6 +7,12 @@ use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\AssessmentController;
+use App\Http\Controllers\AssessmentQuestionUserController;
+use App\Http\Controllers\QuestionOptionController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\ProfileController;
+
 
 
 
@@ -82,6 +88,17 @@ Route::resource('lessons', LessonController::class);
 Route::resource('slides', SlideController::class);
 
 
+Route::resource('assessments', AssessmentController::class);
+
+Route::prefix('assessments/{assessment}')->group(function () {
+    Route::post('questions', [AssessmentQuestionUserController::class, 'store'])->name('assessments.questions.store');
+    Route::put('questions/{question}', [AssessmentQuestionUserController::class, 'update'])->name('assessments.questions.update');
+    Route::delete('questions/{question}', [AssessmentQuestionUserController::class, 'destroy'])->name('assessments.questions.destroy');
+});
+
+Route::resource('question-options', QuestionOptionController::class);
+
+Route::resource('questions', QuestionController::class);
 
 
     

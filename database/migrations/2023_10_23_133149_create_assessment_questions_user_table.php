@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('questions_options', function (Blueprint $table) {
+        Schema::create('assessment_questions_user', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('assessment_user_id');
             $table->foreign('assessment_user_id')->references('id')->on('assessment_user')->onDelete('cascade');
-            $table->unsignedBigInteger('questions_options_id');
-            $table->foreign('questions_options_id')->references('id')->on('questions_options')->onDelete('cascade');
-            $table->unsignedBigInteger('questions_id');
-            $table->foreign('questions_id')->references('id')->on('questions')->onDelete('cascade');
+            $table->unsignedBigInteger('question_id');
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
+            $table->unsignedBigInteger('question_option_id');
+            $table->foreign('question_option_id')->references('id')->on('questions_options')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('questions_options');
+        Schema::dropIfExists('assessment_questions_user');
     }
 };

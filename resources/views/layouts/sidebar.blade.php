@@ -49,6 +49,33 @@
   </li>
   @endif
 
+  @if(auth()->user()->role == 'Administração' || auth()->user()->role == 'Professor')
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('assessments.index') }}">
+      <i class="fas fa-clipboard-check"></i> 
+      <span>Avaliações</span>
+    </a>
+  </li>
+@endif
+
+@if(auth()->user()->role == 'Administração' || auth()->user()->role == 'Professor')
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('questions.index') }}">
+      <i class="fas fa-question-circle"></i> 
+      <span>Perguntas</span>
+    </a>
+  </li>
+@endif
+
+@if(auth()->user()->role == 'Administração' || auth()->user()->role == 'Professor')
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('question-options.index') }}">
+      <i class="fas fa-list-ul"></i> 
+      <span>Opções de Perguntas</span>
+    </a>
+  </li>
+@endif
+
   <li class="nav-item">
     <a class="nav-link" href="/profile">
       <i class="fas fa-user"></i> 
