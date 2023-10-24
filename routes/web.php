@@ -96,10 +96,8 @@ Route::prefix('assessments/{assessment}')->group(function () {
     Route::delete('questions/{question}', [AssessmentQuestionUserController::class, 'destroy'])->name('assessments.questions.destroy');
 });
 
-Route::resource('question-options', QuestionOptionController::class);
+    Route::resource('question-options', QuestionOptionController::class);
 
-Route::resource('questions', QuestionController::class);
+    Route::resource('questions', QuestionController::class);
 
-
-    
 });

@@ -1,17 +1,43 @@
-@extends('layouts.app')
+@if(auth()->user()->role == 'Administração')
+    @extends('layouts.app')
 
-@section('content')
-<div class="container">
-    <h1>Avaliação: {{ $assessment->id }}</h1>
-    <p>Resultado: {{ $assessment->result }}%</p>
-    <p>Usuário: {{ $assessment->user->name }}</p>
-    <h3>Perguntas</h3>
-    @foreach($assessment->questions as $question)
-        <div>
-            <p>{{ $question->text }}</p>
-            <p>Resposta: {{ $question->pivot->questions_options_id }}</p>
+    @section('title', 'Ver Prova')
+
+    @section('contents')
+        <h1 class="mb-0">Detalhes da Prova</h1>
+        <hr />
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Título</label>
+                <input type="text" class="form-control" value="{{ $assessment->title }}" readonly>
+            </div>
         </div>
-    @endforeach
-    <a href="{{ route('assessments.index') }}" class="btn btn-secondary">Voltar</a>
-</div>
-@endsection
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Questões</label>
+                <ul class="list-group">
+                    @foreach($assessment->questions as $question)
+                        <li class="list-group-item">
+                            <strong>{{ $loop->iteration }}.</strong> {{ $question->text }}
+                            <ul>
+                                @foreach($question->options as $option)
+                                    <li>{{ $option->text }} @if($option->id == $question->correct_option) (Correta) @endif</li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-3">
+                <label class="form-label">Criado em</label>
+                <input type="text" class="form-control" value="{{ $assessment->created_at }}" readonly>
+            </div>
+            <div class="col mb-3">
+                <label class="form-label">Atualizado em</label>
+                <input type="text" class="form-control" value="{{ $assessment->updated_at }}" readonly>
+            </div>
+        </div>
+    @endsection
+@endif

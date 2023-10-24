@@ -1,36 +1,54 @@
-@extends('layouts.app')
+@if(auth()->user()->role == 'Administração')
+    @extends('layouts.app')
 
-@section('content')
-<div class="container">
-    <h1>Avaliações</h1>
-    <a href="{{ route('assessments.create') }}" class="btn btn-primary">Criar Avaliação</a>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Resultado</th>
-                <th>Usuário</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($assessments as $assessment)
+    @section('title', 'Gerenciar Provas')
+
+    @section('contents')
+        <div class="d-flex align-items-center justify-content-between">
+            <h1 class="mb-0">Listagem de Provas</h1>
+            <a href="{{ route('assessments.create') }}" class="btn btn-primary">Adicionar Prova</a>
+        </div>
+        <hr />
+        @if(Session::has('success'))
+            <div class="alert alert-success" role="alert">
+                {{ Session::get('success') }}
+            </div>
+        @endif
+        <table class="table table-hover">
+            <thead class="table-primary">
                 <tr>
-                    <td>{{ $assessment->id }}</td>
-                    <td>{{ $assessment->result }}%</td>
-                    <td>{{ $assessment->user->name }}</td>
-                    <td>
-                        <a href="{{ route('assessments.show', $assessment) }}" class="btn btn-info">Ver</a>
-                        <a href="{{ route('assessments.edit', $assessment) }}" class="btn btn-warning">Editar</a>
-                        <form action="{{ route('assessments.destroy', $assessment) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Excluir</button>
-                        </form>
-                    </td>
+                    <th>#</th>
+                    <th>Título</th>
+                    <th>Quantidade de Questões</th>
+                    <th>Ação</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-@endsection
+            </thead>
+            <tbody>
+            @if($assessments->count() > 0)
+                @foreach($assessments as $assessment)
+                    <tr>
+                        <td class="align-middle">{{ $loop->iteration }}</td>
+                        <td class="align-middle">{{ $assessment->title }}</td>
+                        <td class="align-middle">{{ $assessment->questions->count() }}</td>
+                        <td class="align-middle">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a href="{{ route('assessments.show', $assessment->id) }}" type="button" class="btn btn-secondary">Informações</a>
+                                <a href="{{ route('assessments.edit', $assessment->id)}}" type="button" class="btn btn-warning">Editar</a>
+                                <form action="{{ route('assessments.destroy', $assessment->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger">Deletar</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            @else
+                <tr>
+                    <td class="text-center" colspan="4">Nenhuma prova encontrada!</td>
+                </tr>
+            @endif
+            </tbody>
+        </table>
+    @endsection
+@endif

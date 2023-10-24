@@ -4,10 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\assessments;
 
 class Module extends Model
 {
     use HasFactory;
+
+    public function assessments()
+    {
+        return $this->hasMany(Assessment::class);
+    }
 
     protected $fillable = [
         'course_id',

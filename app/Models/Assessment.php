@@ -9,20 +9,37 @@ class Assessment extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'result',
-        'user_id',
-    ];
+    /**
+     * Os atributos que são atribuíveis em massa.
+     *
+     * @var array<string>
+     */
+    protected $fillable = ['title', 'module_id'];
 
-    public function user()
+    /**
+     * Obtém o módulo associado à avaliação.
+     */
+    public function module()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Module::class);
     }
 
+    /**
+     * Obtém as questões associadas à avaliação.
+     */
     public function questions()
     {
-        return $this->belongsToMany(Question::class, 'assessment_questions_user')
-                    ->withPivot('questions_options_id')
-                    ->withTimestamps();
+        return $this->hasMany(Question::class);
+    }
+
+    /**
+     * Adiciona uma questão à avaliação.
+     *
+     * @param array $data Dados da questão.
+     * @return \App\Models\Question A instância da questão criada.
+     */
+    public function addQuestion($data)
+    {
+        return $this->questions()->create($data);
     }
 }
