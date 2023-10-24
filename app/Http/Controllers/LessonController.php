@@ -7,6 +7,7 @@ use App\Models\Lesson;
 use App\Models\Slide;
 use App\Models\Course;
 use App\Models\Module;
+use App\Models\User;
 
 
 class LessonController extends Controller
@@ -21,7 +22,8 @@ class LessonController extends Controller
 {
     $modules = Module::with('course')->get();
     $courses = Course::all();
-    return view('lessons.create', ['modules' => $modules, 'courses' => $courses]);
+    $users = User::all();
+    return view('lessons.create', ['modules' => $modules, 'courses' => $courses, 'users' => $users]);
 }
 
 public function store(Request $request)
@@ -30,10 +32,10 @@ public function store(Request $request)
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
         'course_id' => 'required|exists:courses,id',
-        'module_id' => 'required|exists:modules,id',
+        'module_id' => 'required|exists:modules,id'
     ]);
-
-    Lesson::create($data);
+    
+    $lesson = Lesson::create($data + ['user_id' => auth()->user()->id]);
 
     return redirect()->route('lessons.index')->with('success', 'Aula criada com sucesso!');
 }

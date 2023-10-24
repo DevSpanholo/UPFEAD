@@ -5,6 +5,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Lesson;
 use App\Models\Module;
 use App\Models\Course;
+use App\Models\User;
 
 class LessonsTableSeeder extends Seeder
 {
@@ -15,6 +16,8 @@ class LessonsTableSeeder extends Seeder
      */
     public function run()
     {
+        $admin = User::where('role', 'Administração')->first();
+
         $courses = Course::all();
         $lessonsData = [
             'HTML & CSS Básico' => [
@@ -36,7 +39,8 @@ class LessonsTableSeeder extends Seeder
                             'course_id' => $course->id,
                             'module_id' => $module->id,
                             'title' => $lessonsData[$course->name][$module->name]['title'],
-                            'description' => $lessonsData[$course->name][$module->name]['description']
+                            'description' => $lessonsData[$course->name][$module->name]['description'],
+                            'user_id' => $admin->id,
                         ]);
                     }
                 }

@@ -33,7 +33,7 @@ class CoursesTableSeeder extends Seeder
             Course::create([
                 'name' => $course['name'],
                 'description' => $course['description'],
-                'created_by' => $admin->id,
+                'created_user_id' => $admin->id,
             ]);
         }
     }

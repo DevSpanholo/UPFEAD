@@ -9,7 +9,7 @@ class Course extends Model
 {
     use HasFactory;
 
-    protected $fillable=['name','description','created_by'];
+    protected $fillable=['name','description','created_user_id'];
     
     public function modules() {
         return $this->hasMany(Module::class);

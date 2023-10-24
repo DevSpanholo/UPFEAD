@@ -9,7 +9,7 @@ class Lesson extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'course_id', 'module_id'];
+    protected $fillable = ['title', 'description', 'course_id', 'module_id', 'user_id'];
 
     public function slides()
     {
