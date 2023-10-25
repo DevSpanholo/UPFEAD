@@ -43,6 +43,7 @@ Route::controller(AuthController::class)->group(function () {
 });
   
 Route::middleware('auth')->group(function () {
+    
     Route::get('dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
@@ -57,44 +58,33 @@ Route::middleware('auth')->group(function () {
         Route::delete('destroy/{id}', 'destroy')->name('courses.destroy');
         
     });
+
+    Route::prefix('assessments')->group(function () {
+        Route::post('questions', [AssessmentController::class, 'store'])->name('assessments.questions.store');
+        Route::put('questions', [AssessmentController::class, 'update'])->name('assessments.questions.update');
+        Route::delete('questions', [AssessmentController::class, 'destroy'])->name('assessments.questions.destroy');
+    });
  
     Route::resource('enrollments', EnrollmentController::class);
 
-
-        // Rotas específicas para alunos
-    Route::middleware('checkRole:Aluno')->group(function () {
-
-        });
-
-
-    Route::get('/profile', [App\Http\Controllers\AuthController::class, 'profile'])->name('profile');
-
-    Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('profile/update', [ProfileController::class, 'update'])->name('profile.update');
-
     Route::middleware(['auth', 'checkRole:Professor,Administração'])->group(function () {
-    Route::get('modules', [ModuleController::class, 'index'])->name('modules.index');
-    Route::get('modules/create', [ModuleController::class, 'create'])->name('modules.create');
-    Route::post('modules/create', [ModuleController::class, 'store']);
-    Route::post('modules/store', [ModuleController::class, 'store'])->name('modules.store');
-    Route::get('modules/edit/{id}', [ModuleController::class, 'edit'])->name('modules.edit');
-    Route::put('modules/update/{id}', [ModuleController::class, 'update'])->name('modules.update');
-    Route::delete('modules/destroy/{id}', [ModuleController::class, 'destroy'])->name('modules.destroy');
-    Route::get('modules/{id}', [ModuleController::class, 'show'])->name('modules.show');
-});
 
-Route::resource('lessons', LessonController::class);
+        Route::get('modules', [ModuleController::class, 'index'])->name('modules.index');
+        Route::get('modules/create', [ModuleController::class, 'create'])->name('modules.create');
+        Route::post('modules/create', [ModuleController::class, 'store']);
+        Route::post('modules/store', [ModuleController::class, 'store'])->name('modules.store');
+        Route::get('modules/edit/{id}', [ModuleController::class, 'edit'])->name('modules.edit');
+        Route::put('modules/update/{id}', [ModuleController::class, 'update'])->name('modules.update');
+        Route::delete('modules/destroy/{id}', [ModuleController::class, 'destroy'])->name('modules.destroy');
+        Route::get('modules/{id}', [ModuleController::class, 'show'])->name('modules.show');
+    });
 
-Route::resource('slides', SlideController::class);
+    Route::resource('lessons', LessonController::class);
+
+    Route::resource('slides', SlideController::class);
 
 
-Route::resource('assessments', AssessmentController::class);
-
-Route::prefix('assessments/{assessment}')->group(function () {
-    Route::post('questions', [AssessmentQuestionUserController::class, 'store'])->name('assessments.questions.store');
-    Route::put('questions/{question}', [AssessmentQuestionUserController::class, 'update'])->name('assessments.questions.update');
-    Route::delete('questions/{question}', [AssessmentQuestionUserController::class, 'destroy'])->name('assessments.questions.destroy');
-});
+    Route::resource('assessments', AssessmentController::class);
 
     Route::resource('question-options', QuestionOptionController::class);
 
