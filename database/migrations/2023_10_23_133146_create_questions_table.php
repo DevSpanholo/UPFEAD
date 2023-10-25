@@ -6,12 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
+   public function up(): void
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->string('text');
-            $table->text('description')->nullable();
+            $table->text('text')->nullable();
             $table->unsignedBigInteger('module_id');
             $table->unsignedBigInteger('assessment_id');
             $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
@@ -19,6 +18,7 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+
 
     public function down(): void
     {

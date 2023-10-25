@@ -25,33 +25,37 @@ class AssessmentController extends Controller
     
 
     public function store(Request $request)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'module_id' => 'required|exists:modules,id',
-        'questions' => 'required|array|min:2|max:10',
-        'questions.*.text' => 'required|string|max:255',
-        'questions.*.options' => 'required|array|min:2',
-        'questions.*.options.*.text' => 'required|string|max:255',
-        'questions.*.correct_option' => 'required|integer|min:1|max:4',
-    ]);
-
-    $assessment = Assessment::create(['title' => $request->title, 'module_id' => $request->module_id]);
-
-    foreach ($request->questions as $questionData) {
-        $question = $assessment->questions()->create([
-            'text' => $questionData['text'],
-            'module_id' => $request->module_id
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'module_id' => 'required|exists:modules,id',
+            'questions' => 'required|array|min:2|max:10',
+            'questions.*.text' => 'required|string|max:255',
+            'questions.*.options' => 'required|array|min:2',
+            'questions.*.options.*.text' => 'required|string|max:255',
+            'questions.*.correct_option' => 'required|integer|min:1|max:4',
         ]);
-        $options = collect($questionData['options'])->map(function ($option) {
-            return ['text' => $option['text']];
-        })->all();
-        $question->options()->createMany($options);
-        $question->update(['correct_option' => $questionData['correct_option']]);
+
+        $assessment = Assessment::create(['title' => $request->title, 'module_id' => $request->module_id]);
+
+        foreach ($request->questions as $questionIndex => $questionData) {
+            $question = $assessment->questions()->create([
+                'text' => $questionData['text'],
+                'module_id' => $request->module_id
+            ]);
+
+            foreach ($questionData['options'] as $optionIndex => $optionData) {
+                $isCorrect = ($questionIndex + 1) == $questionData['correct_option'];
+                $question->options()->create([
+                    'description' => $optionData['text'],
+                    'is_correct' => $isCorrect ? '1' : '0',
+                ]);
+            }
+        }
+
+        return redirect()->route('assessments.index');
     }
 
-    return redirect()->route('assessments.index');
-}
 
 
     public function edit(Assessment $assessment)
