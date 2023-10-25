@@ -25,29 +25,35 @@ class AssessmentController extends Controller
     
 
     public function store(Request $request)
-    {
-        dd($request->all());
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'questions' => 'required|array|min:5|max:10',
-            'questions.*.text' => 'required|string|max:255',
-            'questions.*.options' => 'required|array|min:2',
-            'questions.*.options.*' => 'required|string|max:255',
-            'questions.*.correct_option' => 'required|integer|min:1|max:4',
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'module_id' => 'required|exists:modules,id',
+        'questions' => 'required|array|min:2|max:10',
+        'questions.*.text' => 'required|string|max:255',
+        'questions.*.options' => 'required|array|min:2',
+        'questions.*.options.*.text' => 'required|string|max:255',
+        'questions.*.correct_option' => 'required|integer|min:1|max:4',
+    ]);
+
+    $assessment = Assessment::create(['title' => $request->title, 'module_id' => $request->module_id]);
+
+    foreach ($request->questions as $questionData) {
+        $question = $assessment->questions()->create([
+            'text' => $questionData['text'],
+            'module_id' => $request->module_id
         ]);
-
-        $assessment = Assessment::create(['title' => $request->title]);
-
-        foreach ($request->questions as $questionData) {
-            $question = $assessment->questions()->create(['text' => $questionData['text']]);
-            $question->options()->createMany(array_map(function ($option) {
-                return ['text' => $option];
-            }, $questionData['options']));
-            $question->update(['correct_option' => $questionData['correct_option']]);
-        }
-
-        return redirect()->route('assessments.index');
+        $options = collect($questionData['options'])->map(function ($option) {
+            return ['text' => $option['text']];
+        })->all();
+        $question->options()->createMany($options);
+        $question->update(['correct_option' => $questionData['correct_option']]);
     }
+
+    return redirect()->route('assessments.index');
+}
+
+
     public function edit(Assessment $assessment)
     {
         $assessment->load('questions.options');
