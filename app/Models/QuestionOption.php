@@ -9,8 +9,10 @@ class QuestionOption extends Model
 {
     use HasFactory;
 
+    protected $table = 'questions_options';
+
     protected $fillable = [
-        'text',
+        'description',
         'is_correct',
         'question_id',
     ];

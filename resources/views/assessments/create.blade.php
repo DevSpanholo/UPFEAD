@@ -106,22 +106,20 @@
     </template>
 @endsection
 
-@section('scripts')
     <script>
         window.updateCorrectOption = function(checkbox, questionIndex, optionIndex) {
-            if (checkbox.checked) {
-                const questionElement = checkbox.closest('.question');
-                questionElement.querySelector('.correct-option').value = optionIndex + 1;
-            }
-        }
-        function updateCorrectOption(checkbox, questionIndex, optionIndex) {
             console.log('updateCorrectOption chamado', checkbox, questionIndex, optionIndex);
+            const questionElement = checkbox.closest('.question');
+            const correctOptionInput = questionElement.querySelector('.correct-option');
+            
             if (checkbox.checked) {
-                const questionElement = checkbox.closest('.question');
-                questionElement.querySelector('.correct-option').value = optionIndex + 1;
+                correctOptionInput.value = optionIndex + 1;
+            } else if (correctOptionInput.value == optionIndex + 1) {
+                correctOptionInput.value = '';
             }
-        }
 
+            console.log('Valor atualizado para:', correctOptionInput.value);
+        }
 
         document.addEventListener('DOMContentLoaded', function () {
             const questionsContainer = document.getElementById('questions-container');
@@ -164,4 +162,4 @@
             });
         });
     </script>
-@endsection
+
