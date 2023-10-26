@@ -16928,23 +16928,26 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      title: 'Seu tiel',
-      description: '<p>Hello from CKEditor 5!</p>'
+      title: "Seu título",
+      description: "<p>Hello from CKEditor 5!</p>"
     };
   },
-  methods: {},
+  computed: {
+    filteredDescription: function filteredDescription() {
+      // Mantém as tags <p>, <strong>, <em>, <u> e <br>
+      return this.description.replace(/<\/?(?!(p|strong|em|u|br)\b)[^>]*>/gi, "");
+    }
+  },
   mounted: function mounted() {
     var self = this;
-    var editor = CKEDITOR.replace('eventDescription', {
-      uiColor: '#14B8C4',
-      toolbar: [
-      // ['Styles','Format','Font','FontSize'],
-      ['Bold', 'Italic', 'Underline', 'StrikeThrough', '-', 'Undo', 'Redo', '-', 'Cut', 'Copy', 'Paste', 'Find', 'Replace', '-'], ['NumberedList', 'BulletedList']]
+    var editor = CKEDITOR.replace("eventDescription", {
+      uiColor: "#14B8C4",
+      toolbar: [['Undo', 'Redo'], ['Cut', 'Copy', 'Paste'], ['Bold', 'Italic', 'Underline', 'Strike'], ['FontSize', 'TextColor', 'BGColor'], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'], ['NumberedList', 'BulletedList'], ['Outdent', 'Indent'], ['Link', 'Unlink'], ['Image', 'Table', 'HorizontalRule', 'SpecialChar'], ["NumberedList", "BulletedList"]]
     });
     editor.on("pluginsLoaded", function (event) {
-      editor.on('contentDom', function (evt) {
+      editor.on("contentDom", function (evt) {
         var editable = editor.editable();
-        editable.attachListener(editable, 'keyup', function (e) {
+        editable.attachListener(editable, "keyup", function (e) {
           self.description = e.data.$.target.innerHTML;
         });
       });
@@ -17053,10 +17056,10 @@ var _withScopeId = function _withScopeId(n) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-165f8a51"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
 };
 var _hoisted_1 = {
-  "class": "row"
+  "class": "row d-flex"
 };
 var _hoisted_2 = {
-  "class": "col-sm-4"
+  "class": "editor-panel"
 };
 var _hoisted_3 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Título", -1 /* HOISTED */);
@@ -17074,7 +17077,7 @@ var _hoisted_7 = {
   "class": "form-group"
 };
 var _hoisted_8 = {
-  "class": "col-sm-8"
+  "class": "slide-preview-panel"
 };
 var _hoisted_9 = {
   "class": "slide"
@@ -19228,7 +19231,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.button[data-v-165f8a51] {\n    margin-top: 35px;\n}\n.handle[data-v-165f8a51] {\n    float: left;\n    padding-top: 8px;\n    padding-bottom: 8px;\n}\n.close[data-v-165f8a51] {\n    float: right;\n    padding-top: 8px;\n    padding-bottom: 8px;\n}\ninput[data-v-165f8a51] {\n    display: inline-block;\n    width: 50%;\n}\n.text[data-v-165f8a51] {\n    margin: 20px;\n}\n.editor-container[data-v-165f8a51] {\n    display: flex;\n}\n.toolbox[data-v-165f8a51] {\n    width: 200px;\n    border-right: 1px solid #ccc;\n    padding: 10px;\n}\n.slide-container[data-v-165f8a51] {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    height: 100vh;\n    flex-grow: 1;\n}\n.slide[data-v-165f8a51] {\n    border: 1px solid #ccc;\n    padding: 20px;\n    text-align: center;\n    width: 500px;\n    height: 300px;\n    position: relative;\n    background-color: #555;\n}\n.text-container[data-v-165f8a51] {\n    display: flex;\n    flex-direction: column;\n    gap: 10px;\n}\n.texto[data-v-165f8a51] {\n    cursor: grab;\n    border: 1px solid #ccc;\n    padding: 10px;\n    border-radius: 5px;\n    background-color: white;\n}\n.texto-editavel[data-v-165f8a51] {\n    margin-top: 10px;\n    position: relative;\n    background-color: white;\n}\n.texto-editavel button[data-v-165f8a51] {\n    position: absolute;\n    top: 5px;\n    right: 5px;\n    background-color: red;\n    color: white;\n    border: none;\n    border-radius: 50%;\n    width: 20px;\n    height: 20px;\n    font-size: 14px;\n    cursor: pointer;\n    line-height: 16px;\n    text-align: center;\n    padding: 0;\n    display: none;\n    /* Esconde o botão por padrão */\n}\n.texto-editavel:hover button[data-v-165f8a51] {\n    display: block;\n    /* Mostra o botão quando o mouse estiver sobre o texto */\n}\n.texto[data-type='Title'][data-v-165f8a51],\n.texto-editavel[data-type='Title'][data-v-165f8a51] {\n    font-size: 24px;\n    font-weight: bold;\n    color: #333;\n}\n.texto[data-type='Description'][data-v-165f8a51],\n.texto-editavel[data-type='Description'][data-v-165f8a51] {\n    font-size: 16px;\n    color: #777;\n}\n.texto[data-type='List'][data-v-165f8a51],\n.texto-editavel[data-type='List'][data-v-165f8a51] {\n    font-size: 14px;\n    color: #555;\n    background-color: #f4f4f4;\n    list-style-type: disc;\n    padding-left: 20px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.row[data-v-165f8a51] {\n    display: flex;\n    gap: 20px;\n    height: 100vh;\n    padding: 20px;\n}\n.editor-panel[data-v-165f8a51] {\n    flex: 1;\n    padding: 20px;\n    border-radius: 10px;\n    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n    background-color: #fff;\n}\n.slide-preview-panel[data-v-165f8a51] {\n    flex: 2;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.slide[data-v-165f8a51] {\n    background-color: #f9f9f9;\n    border: 1px solid #ccc;\n    padding: 20px;\n    border-radius: 10px;\n    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n    width: 80%;\n    height: 500px;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n}\n.texto-editavel[data-v-165f8a51] {\n    border: 1px solid #ccc;\n    padding: 10px;\n    border-radius: 5px;\n    margin-top: 10px;\n    width: 100%;\n    text-align: center;\n    overflow: hidden;\n    white-space: pre-wrap;\n    word-wrap: break-word;\n    overflow-wrap: break-word;\n}\n.form-control[data-v-165f8a51] {\n    white-space: pre-wrap;\n    word-wrap: break-word;\n    overflow-wrap: break-word;\n}\n.form-group[data-v-165f8a51] {\n    margin-bottom: 20px;\n}\ninput[data-v-165f8a51],\n  textarea[data-v-165f8a51] {\n    width: 100%;\n    padding: 10px;\n    border: 1px solid #ccc;\n    border-radius: 5px;\n    box-sizing: border-box;\n}\nbutton[data-v-165f8a51],\n  a[data-v-165f8a51] {\n    background-color: #4CAF50;\n    color: white;\n    padding: 10px 20px;\n    margin: 10px 0;\n    border: none;\n    border-radius: 5px;\n    cursor: pointer;\n    text-decoration: none;\n    display: inline-block;\n}\nbutton[data-v-165f8a51]:hover,\n  a[data-v-165f8a51]:hover {\n    background-color: #45a049;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

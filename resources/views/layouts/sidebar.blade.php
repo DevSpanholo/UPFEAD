@@ -3,7 +3,7 @@
   <!-- Sidebar - Brand -->
   <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
     <div class="sidebar-brand-icon rotate-n-15">
-      <i class="fas fa-graduation-cap"></i> 
+      <i class="fas fa-graduation-cap"></i>
     </div>
     <div class="sidebar-brand-text mx-3">Upf Ead - Cursos</div>
   </a>
@@ -14,14 +14,14 @@
   <!-- Nav Item - Dashboard -->
   <li class="nav-item">
     <a class="nav-link" href="{{ route('dashboard') }}">
-      <i class="fas fa-tachometer-alt"></i> 
+      <i class="fas fa-tachometer-alt"></i>
       <span>Dashboard</span></a>
   </li>
 
   @if(auth()->user()->role == 'Administração' || auth()->user()->role == 'Professor')
   <li class="nav-item">
     <a class="nav-link" href="{{ route('courses') }}">
-      <i class="fas fa-book"></i> 
+      <i class="fas fa-book"></i>
       <span>Cursos</span></a>
   </li>
   @endif
@@ -29,14 +29,14 @@
   @if(auth()->user()->role == 'Administração' || auth()->user()->role == 'Professor')
   <li class="nav-item">
     <a class="nav-link" href="{{ route('modules.index') }}">
-      <i class="fas fa-cube"></i> 
+      <i class="fas fa-cube"></i>
       <span>Módulos</span></a>
   </li>
   @endif
 
   <li class="nav-item">
     <a class="nav-link" href="{{ route('lessons.index') }}">
-      <i class="fas fa-chalkboard-teacher"></i> 
+      <i class="fas fa-chalkboard-teacher"></i>
       <span>Aula</span>
     </a>
   </li>
@@ -44,7 +44,7 @@
   @if(auth()->user()->role == 'Administração')
   <li class="nav-item">
     <a class="nav-link" href="{{ route('enrollments.index') }}">
-      <i class="fas fa-clipboard-list"></i> 
+      <i class="fas fa-clipboard-list"></i>
       <span>Matrículas</span></a>
   </li>
   @endif
@@ -52,26 +52,8 @@
   @if(auth()->user()->role == 'Administração' || auth()->user()->role == 'Professor')
   <li class="nav-item">
     <a class="nav-link" href="{{ route('assessments.index') }}">
-      <i class="fas fa-clipboard-check"></i> 
+      <i class="fas fa-clipboard-check"></i>
       <span>Avaliações</span>
-    </a>
-  </li>
-@endif
-
-@if(auth()->user()->role == 'Administração' || auth()->user()->role == 'Professor')
-  <li class="nav-item">
-    <a class="nav-link" href="{{ route('questions.index') }}">
-      <i class="fas fa-question-circle"></i> 
-      <span>Perguntas</span>
-    </a>
-  </li>
-@endif
-
-@if(auth()->user()->role == 'Administração' || auth()->user()->role == 'Professor')
-  <li class="nav-item">
-    <a class="nav-link" href="{{ route('question-options.index') }}">
-      <i class="fas fa-list-ul"></i> 
-      <span>Opções de Perguntas</span>
     </a>
   </li>
 @endif
@@ -79,7 +61,7 @@
 
   <li class="nav-item">
     <a class="nav-link" href="/profile">
-      <i class="fas fa-user"></i> 
+      <i class="fas fa-user"></i>
       <span>Perfil</span></a>
   </li>
 

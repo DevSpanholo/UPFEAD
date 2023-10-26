@@ -21,26 +21,45 @@
             <div class="card-header">
                 {{ $lessonsGroup->first()->module->name ?? 'Módulo' }}
             </div>
-            <ul class="list-group list-group-flush">
-                @foreach($lessonsGroup as $lesson)
-                    <li class="list-group-item">
-                        <strong>{{ $lesson->title }}</strong>
-                        <div class="mt-2 content-display" style="height:300px; overflow:auto;">
-                            {!! $lesson->description !!}
-                        </div>
-                        @if(auth()->user()->role == 'Professor')
-                            <div class="mt-2">
-                                <a href="{{ route('lessons.edit', $lesson->id) }}" class="btn btn-sm btn-warning">Editar</a>
-                                <form action="{{ route('lessons.destroy', $lesson->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar?')" style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-sm btn-danger">Deletar</button>
-                                </form>
-                            </div>
-                        @endif
-                    </li>
-                @endforeach
-            </ul>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>#</th>
+                            <th>Título</th>
+                            <th>Descrição</th>
+                            @if(auth()->user()->role == 'Professor')
+                                <th>Ação</th>
+                            @endif
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($lessonsGroup as $index => $lesson)
+                            <tr>
+                                <td class="align-middle">{{ $index + 1 }}</td>
+                                <td class="align-middle">{{ $lesson->title }}</td>
+                                <td class="align-middle">
+                                    <div class="content-display" style="max-height:100px; overflow:auto;">
+                                        {!! $lesson->description !!}
+                                    </div>
+                                </td>
+                                @if(auth()->user()->role == 'Professor')
+                                    <td class="align-middle">
+                                        <div class="btn-group" role="group" aria-label="Ações">
+                                            <a href="{{ route('lessons.edit', $lesson->id) }}" class="btn btn-warning">Editar</a>
+                                            <form action="{{ route('lessons.destroy', $lesson->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Deletar</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                @endif
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     @endforeach
 @endsection
