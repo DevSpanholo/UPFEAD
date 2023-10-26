@@ -17,10 +17,6 @@
         <textarea name="description" id="description" class="form-control"></textarea>
     </div>
 
-    <div class="row">
-        <vc-slide></vc-slide>
-    </div>
-
     <div class="form-group">
         <label for="course_id">Curso:</label>
         <select name="course_id" id="course_id" class="form-control" required>
@@ -29,8 +25,8 @@
                 <option value="{{ $course->id }}">{{ $course->name }}</option>
             @endforeach
         </select>
-        </div>
-        <div class="form-group">
+    </div>
+    <div class="form-group">
         <select name="module_id" id="module_id" class="form-control">
             <option value="" disabled selected>Selecione um módulo</option>
             @foreach($modules as $module)
@@ -39,17 +35,18 @@
                 </option>
             @endforeach
         </select>
-        
-
-        </div> 
-    <div class="form-group">
-    <button type="submit" class="btn btn-primary">Criar Aula</button>
-
-    <a href="{{ route('modules.create') }}" class="btn btn-secondary">Cadastrar Módulo</a>
-    <a href="{{ route('courses.create') }}" class="btn btn-secondary">Cadastrar Curso</a>
     </div>
 
-    
+    <div class="form-group">
+        <vc-form-slide/>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Criar Aula</button>
+
+        <a href="{{ route('modules.create') }}" class="btn btn-secondary">Cadastrar Módulo</a>
+        <a href="{{ route('courses.create') }}" class="btn btn-secondary">Cadastrar Curso</a>
+    </div>
 </form>
 
 

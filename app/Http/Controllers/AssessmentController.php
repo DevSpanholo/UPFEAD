@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class AssessmentController extends Controller
 {
 
-    
+
     public function index()
     {
         $assessments = Assessment::with('questions')->get();
@@ -23,7 +23,7 @@ class AssessmentController extends Controller
         $modules = Module::all();
         return view('assessments.create', compact('modules'));
     }
-    
+
 
     public function store(Request $request)
     {
@@ -36,17 +36,17 @@ class AssessmentController extends Controller
                 'questions' => 'required|array|min:2|max:10',
                 'questions.*.text' => 'required|string|max:255',
                 'questions.*.options' => 'required|array|min:2',
-                'questions.*.correct_option' => 'required|integer|min:1|max:4',
+                'questions.*.correct_option' => 'required|integer|min:1|max:5',
             ]);
-    
+
             $assessment = Assessment::create(['title' => $data['title'], 'module_id' => $data['module_id']]);
-            
+
             foreach ($data['questions'] as $questionIndex => $questionData) {
                 $question = $assessment->questions()->create([
                     'text' => $questionData['text'],
                     'module_id' => $request->module_id
                 ]);
-    
+
                 foreach ($questionData['options'] as $optionIndex => $optionData) {
                     $isCorrect = ($optionIndex + 1) == $questionData['correct_option'];
                     $question->options()->create([
@@ -75,7 +75,7 @@ class AssessmentController extends Controller
         $assessment->load('questions.options');
         return view('assessments.show', compact('assessment'));
     }
-   
+
 
 
 }

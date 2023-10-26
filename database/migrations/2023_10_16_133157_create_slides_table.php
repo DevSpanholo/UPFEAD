@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('slides', function (Blueprint $table) {
             $table->id();
-            $table->text('content');
+            $table->text('title');
+            $table->text('description', 1000)->nullable();
             $table->unsignedBigInteger('lesson_id');
             $table->foreign('lesson_id')->references('id')->on('lessons')->onDelete('cascade');
             $table->timestamps();

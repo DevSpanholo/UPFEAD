@@ -19,7 +19,9 @@
     },
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "^40.0.0",
+        "@ckeditor/ckeditor5-build-inline": "^31.1.0",
         "@ckeditor/ckeditor5-vue": "^5.1.0",
+        "ckeditor4-vue": "^3.0.0",
         "jquery": "^3.7.1",
         "reveal.js": "^4.6.1",
         "vue": "^3.3.7",

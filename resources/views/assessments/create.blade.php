@@ -71,7 +71,7 @@
                                 <div class="col-sm-1 text-center">
                                     <input class="form-check-input me-2" type="checkbox" name="questions[{{ $keyQ }}][options][{{ $keyO }}][is_correct]" {{ $option['is_correct'] ? 'checked' : '' }} onchange="updateCorrectOption(this, {{ $keyQ }}, {{ $keyO }})">
                                 </div>
-                                
+
                                 <div class="col-sm-1">
                                     <label class="form-check-label me-2" for="option{{ $keyO }}">({{ chr(65 + $keyO) }})</label>
                                 </div>
@@ -85,7 +85,7 @@
                 </div>
             @endforeach
         </div>
-        
+
         <div class="row">
             <div class="col-sm-12">
                 <button type="button" id="add-question" class="btn btn-secondary mb-3">Adicionar Questão</button>
@@ -104,8 +104,8 @@
         window.updateCorrectOption = function(checkbox, questionIndex, optionIndex) {
             console.log('updateCorrectOption chamado', checkbox, questionIndex, optionIndex);
             const questionElement = checkbox.closest('.question');
-            const correctOptionInput = questionElement.querySelector('.correct-option');
-            
+            const correctOptionInput = questionElement.querySelector('input[name="questions['+questionIndex+'][correct_option]"]');
+
             if (checkbox.checked) {
                 correctOptionInput.value = optionIndex + 1;
             } else if (correctOptionInput.value == optionIndex + 1) {

@@ -28,16 +28,28 @@ class LessonController extends Controller
 
 public function store(Request $request)
 {
-    $data = $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'course_id' => 'required|exists:courses,id',
-        'module_id' => 'required|exists:modules,id'
-    ]);
-    
-    $lesson = Lesson::create($data + ['user_id' => auth()->user()->id]);
+    try {
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'course_id' => 'required|exists:courses,id',
+            'module_id' => 'required|exists:modules,id',
+            'slides' => 'required|array|min:1|max:10',
+        ]);
 
-    return redirect()->route('lessons.index')->with('success', 'Aula criada com sucesso!');
+        $lesson = Lesson::create($data + ['user_id' => auth()->user()->id]);
+
+        foreach ($data['slides'] as $slide) {
+            $question = $lesson->slides()->create([
+                'title' => $slide['title'],
+                'description' => $slide['description'],
+            ]);
+        }
+
+        return redirect()->route('lessons.index')->with('success', 'Aula criada com sucesso!');
+    } catch (\Exception $e) {
+        dd($e);
+    }
 }
 
 public function show($id)
@@ -83,7 +95,7 @@ public function show($id)
         $lesson->description = $request->input('description');
         $lesson->course_id = $request->input('course_id');
         $lesson->module_id = $request->input('module_id');
-        
+
         $lesson->save();
 
         return redirect()->route('lessons.index')->with('success', 'Aula atualizada com sucesso!');

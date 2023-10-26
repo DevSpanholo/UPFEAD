@@ -13,14 +13,15 @@
         <draggable :list="textosNoSlide" group="textos" :move="checkMove" item-key="id" class="slide">
           <h1>{{ titulo }}</h1>
           <template #item="{ element }">
-            <div :key="element.id" class="texto-editavel" contenteditable="true" :data-type="element.conteudo">{{ element.conteudo }}</div>
+            <div :key="element.id" class="texto-editavel" contenteditable="true" :data-type="element.conteudo">
+              {{ element.conteudo }}
+              <button @click="deletarTexto(element)">X</button>
+            </div>
           </template>
         </draggable>
       </div>
     </div>
 </template>
-
-
 
 <script>
 import { ref } from 'vue';
@@ -30,6 +31,18 @@ export default {
   components: {
     draggable,
   },
+  data() {
+    return {
+        titulo: "TÍTULO",
+        textos: [
+            { id: 1, conteudo: 'Title' },
+            { id: 2, conteudo: 'Description' },
+            { id: 3, conteudo: 'List' },
+        ],
+        textosNoSlide: [],
+        novoTexto: "",
+    }
+  },
   setup() {
     const titulo = ref("TÍTULO");
     const textos = ref([
@@ -37,6 +50,7 @@ export default {
       { id: 2, conteudo: 'Description' },
       { id: 3, conteudo: 'List' },
     ]);
+
     const textosNoSlide = ref([]);
 
     const novoTexto = ref("");
@@ -50,21 +64,20 @@ export default {
     };
 
     const onEnd = (event) => {
-        const movedItem = event.item.getAttribute('data-type');
+        console.log("Evento:", event);
+        console.log("Índice arrastado:", event.oldDraggableIndex);
+        let movedItem;
         if (event.from.classList.contains('text-container') && event.to.classList.contains('slide')) {
-            const itemToMove = textos.value.find(t => t.conteudo === movedItem);
-            if (itemToMove) {
-            textosNoSlide.value.push({ ...itemToMove });
-            textos.value = textos.value.filter(t => t.conteudo !== movedItem);
-            }
+            movedItem = { ...textos.value[event.oldDraggableIndex] };
+            textos.value.splice(event.oldDraggableIndex, 1);
+            textosNoSlide.value.push(movedItem);
         } else if (event.from.classList.contains('slide') && event.to.classList.contains('text-container')) {
-            const itemToMove = textosNoSlide.value.find(t => t.conteudo === movedItem);
-            if (itemToMove) {
-            textos.value.push({ ...itemToMove });
-            textosNoSlide.value = textosNoSlide.value.filter(t => t.conteudo !== movedItem);
-            }
+            movedItem = { ...textosNoSlide.value[event.oldDraggableIndex] };
+            textosNoSlide.value.splice(event.oldDraggableIndex, 1);
+            textos.value.push(movedItem);
         }
-        };
+    };
+
 
 
     const checkMove = (event) => {
@@ -72,6 +85,13 @@ export default {
              (event.from.classList.contains('slide') && event.to.classList.contains('text-container'));
     };
 
+    const deletarTexto = (texto) => {
+      const index = textosNoSlide.value.indexOf(texto);
+      if (index > -1) {
+        textosNoSlide.value.splice(index, 1);
+        textos.value.push(texto);
+      }
+    };
 
     return {
       titulo,
@@ -80,7 +100,8 @@ export default {
       onEnd,
       checkMove,
       novoTexto,
-      adicionarTexto
+      adicionarTexto,
+      deletarTexto
     };
   },
 };
@@ -120,7 +141,7 @@ export default {
   gap: 10px;
 }
 
-.texto, .texto-editavel {
+.texto{
   cursor: grab;
   border: 1px solid #ccc;
   padding: 10px;
@@ -129,8 +150,32 @@ export default {
 }
 
 .texto-editavel {
-  margin-top: 10px;
-}
+    margin-top: 10px;
+    position: relative;
+  }
+
+  .texto-editavel button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    line-height: 16px;
+    text-align: center;
+    padding: 0;
+    display: none; /* Esconde o botão por padrão */
+  }
+
+  .texto-editavel:hover button {
+    display: block; /* Mostra o botão quando o mouse estiver sobre o texto */
+  }
+
 
 .texto[data-type='Title'], .texto-editavel[data-type='Title'] {
   font-size: 24px;
@@ -151,3 +196,4 @@ export default {
   padding-left: 20px;
 }
 </style>
+

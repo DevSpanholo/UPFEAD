@@ -1,185 +1,189 @@
 <template>
-    <div class="editor-container">
-      <div class="toolbox">
-        <draggable class="text-container" :list="textos" group="textos" :move="checkMove" item-key="id" @end="onEnd">
-          <template #item="{ element }">
-            <div :key="element.id" class="texto" :data-type="element.conteudo">{{ element.conteudo }}</div>
-          </template>
-        </draggable>
-        <input v-model="novoTexto" placeholder="Digite o novo texto aqui" />
-        <button @click="adicionarTexto">Adicionar Texto</button>
+    <div class="row">
+      <div class="col-sm-4">
+        <p>Título</p>
+        <div class="form-group">
+            <input type="text" class="form-control" v-model="title" />
+        </div>
+
+        <p>Descrição</p>
+        <div class="form-group">
+            <textarea type="text" contenteditable="true" name="eventDescription" id="eventDescription" class="form-control" v-model="description" />
+        </div>
+
+        <div class="form-group">
+            <a @click="addSlide({title, description})">Adicionar Slide</a>
+        </div>
       </div>
-      <div class="slide-container">
-        <draggable :list="textosNoSlide" group="textos" :move="checkMove" item-key="id" class="slide">
-          <h1>{{ titulo }}</h1>
-          <template #item="{ element }">
-            <div :key="element.id" class="texto-editavel" contenteditable="true" :data-type="element.conteudo">
-              {{ element.conteudo }}
-              <button @click="deletarTexto(element)">X</button>
+
+      <div class="col-sm-8">
+        <div class="slide">
+            <div class="texto-editavel">
+                {{ title }}
             </div>
-          </template>
-        </draggable>
+
+            <div class="texto-editavel" v-html="description">
+
+            </div>
+        </div>
       </div>
+
     </div>
-</template>
+  </template>
 
-<script>
-import { ref } from 'vue';
-import draggable from 'vuedraggable';
-
-export default {
-  components: {
-    draggable,
-  },
-  setup() {
-    const titulo = ref("TÍTULO");
-    const textos = ref([
-      { id: 1, conteudo: 'Title' },
-      { id: 2, conteudo: 'Description' },
-      { id: 3, conteudo: 'List' },
-    ]);
-    const textosNoSlide = ref([]);
-
-    const novoTexto = ref("");
-
-    const adicionarTexto = () => {
-      if (novoTexto.value.trim() !== "") {
-        const novoId = textos.value.length ? Math.max(...textos.value.map(t => t.id)) + 1 : 1;
-        textos.value.push({ id: novoId, conteudo: novoTexto.value });
-        novoTexto.value = "";
-      }
-    };
-
-    const onEnd = (event) => {
-        console.log("Evento:", event);
-        console.log("Índice arrastado:", event.oldDraggableIndex);
-        let movedItem;
-        if (event.from.classList.contains('text-container') && event.to.classList.contains('slide')) {
-            movedItem = { ...textos.value[event.oldDraggableIndex] };
-            textos.value.splice(event.oldDraggableIndex, 1);
-            textosNoSlide.value.push(movedItem);
-        } else if (event.from.classList.contains('slide') && event.to.classList.contains('text-container')) {
-            movedItem = { ...textosNoSlide.value[event.oldDraggableIndex] };
-            textosNoSlide.value.splice(event.oldDraggableIndex, 1);
-            textos.value.push(movedItem);
-        }
-    };
+  <script>
+import CKEditor from 'ckeditor4-vue';
 
 
+  export default {
+    name: "slide",
+    props: {
+        addSlide: Function,
+    },
+    data() {
+      return {
+        title: 'Seu tiel',
+        description: '<p>Hello from CKEditor 5!</p>',
+      };
+    },
 
-    const checkMove = (event) => {
-      return (event.from.classList.contains('text-container') && event.to.classList.contains('slide')) ||
-             (event.from.classList.contains('slide') && event.to.classList.contains('text-container'));
-    };
+    methods: {
 
-    const deletarTexto = (texto) => {
-      const index = textosNoSlide.value.indexOf(texto);
-      if (index > -1) {
-        textosNoSlide.value.splice(index, 1);
-        textos.value.push(texto);
-      }
-    };
+    },
+    mounted() {
+        const self = this;
+        var editor = CKEDITOR.replace( 'eventDescription', {
+	        uiColor: '#14B8C4',
+	        toolbar: [
+		        // ['Styles','Format','Font','FontSize'],
+                ['Bold','Italic','Underline','StrikeThrough','-','Undo','Redo','-','Cut','Copy','Paste','Find','Replace','-'],
+                ['NumberedList','BulletedList'],
+	        ]
+        });
 
-    return {
-      titulo,
-      textos,
-      textosNoSlide,
-      onEnd,
-      checkMove,
-      novoTexto,
-      adicionarTexto,
-      deletarTexto
-    };
-  },
-};
-</script>
-
-<style scoped>
-.editor-container {
-  display: flex;
-}
-
-.toolbox {
-  width: 200px;
-  border-right: 1px solid #ccc;
-  padding: 10px;
-}
-
-.slide-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  flex-grow: 1;
-}
-
-.slide {
-  border: 1px solid #ccc;
-  padding: 20px;
-  text-align: center;
-  width: 500px;
-  height: 300px;
-  position: relative;
-}
-
-.text-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.texto{
-  cursor: grab;
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: white;
-}
-
-.texto-editavel {
-    margin-top: 10px;
-    position: relative;
+        editor.on( "pluginsLoaded", function( event ){
+            editor.on( 'contentDom', function( evt ) {
+                var editable = editor.editable();
+                editable.attachListener( editable, 'keyup', function( e ) {
+                    self.description = e.data.$.target.innerHTML;
+                });
+            });
+        });
+    }
+  };
+  </script>
+  <style scoped>
+  .button {
+    margin-top: 35px;
+  }
+  .handle {
+    float: left;
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
 
-  .texto-editavel button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: red;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    font-size: 14px;
-    cursor: pointer;
-    line-height: 16px;
+  .close {
+    float: right;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  input {
+    display: inline-block;
+    width: 50%;
+  }
+
+  .text {
+    margin: 20px;
+  }
+
+  .editor-container {
+    display: flex;
+  }
+
+  .toolbox {
+    width: 200px;
+    border-right: 1px solid #ccc;
+    padding: 10px;
+  }
+
+  .slide-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-grow: 1;
+  }
+
+  .slide {
+    border: 1px solid #ccc;
+    padding: 20px;
     text-align: center;
-    padding: 0;
-    display: none; /* Esconde o botão por padrão */
+    width: 500px;
+    height: 300px;
+    position: relative;
+    background-color: #555;
   }
 
-  .texto-editavel:hover button {
-    display: block; /* Mostra o botão quando o mouse estiver sobre o texto */
+  .text-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
+  .texto{
+    cursor: grab;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: white;
+  }
 
-.texto[data-type='Title'], .texto-editavel[data-type='Title'] {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-}
+  .texto-editavel {
+      margin-top: 10px;
+      position: relative;
+      background-color: white;
+    }
 
-.texto[data-type='Description'], .texto-editavel[data-type='Description'] {
-  font-size: 16px;
-  color: #777;
-}
+    .texto-editavel button {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      line-height: 16px;
+      text-align: center;
+      padding: 0;
+      display: none; /* Esconde o botão por padrão */
+    }
 
-.texto[data-type='List'], .texto-editavel[data-type='List'] {
-  font-size: 14px;
-  color: #555;
-  background-color: #f4f4f4;
-  list-style-type: disc;
-  padding-left: 20px;
-}
-</style>
+    .texto-editavel:hover button {
+      display: block; /* Mostra o botão quando o mouse estiver sobre o texto */
+    }
+
+
+  .texto[data-type='Title'], .texto-editavel[data-type='Title'] {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .texto[data-type='Description'], .texto-editavel[data-type='Description'] {
+    font-size: 16px;
+    color: #777;
+  }
+
+  .texto[data-type='List'], .texto-editavel[data-type='List'] {
+    font-size: 14px;
+    color: #555;
+    background-color: #f4f4f4;
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  </style>
