@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
-    use HasFactory;
+    protected $table = 'questions';
 
     protected $fillable = [
         'text',
         'module_id',
+        'assessment_id'
     ];
 
     public function module()
@@ -22,12 +22,5 @@ class Question extends Model
     public function options()
     {
         return $this->hasMany(QuestionOption::class);
-    }
-
-    public function assessments()
-    {
-        return $this->belongsToMany(Assessment::class, 'assessment_questions_user')
-                    ->withPivot('questions_options_id')
-                    ->withTimestamps();
     }
 }

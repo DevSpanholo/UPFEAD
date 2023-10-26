@@ -68,42 +68,36 @@
                     <div class="options-container mb-3">
                         @foreach($question['options'] as $keyO => $option)
                             <div class="option d-flex align-items-center mb-2">
-                                <input class="form-check-input me-2" type="checkbox" name="questions[{{ $keyQ }}][options][{{ $keyO }}][is_correct]" {{ $option['is_correct'] ? 'checked' : '' }} onchange="updateCorrectOption(this, {{ $keyQ }}, {{ $keyO }})">
-                                <label class="form-check-label me-2" for="option{{ $keyO }}">({{ chr(65 + $keyO) }})</label>
-                                <input type="text" name="questions[{{ $keyQ }}][options][{{ $keyO }}][text]" class="form-control" placeholder="Opção" required value="{{ $option['text'] }}">
+                                <div class="col-sm-1 text-center">
+                                    <input class="form-check-input me-2" type="checkbox" name="questions[{{ $keyQ }}][options][{{ $keyO }}][is_correct]" {{ $option['is_correct'] ? 'checked' : '' }} onchange="updateCorrectOption(this, {{ $keyQ }}, {{ $keyO }})">
+                                </div>
+                                
+                                <div class="col-sm-1">
+                                    <label class="form-check-label me-2" for="option{{ $keyO }}">({{ chr(65 + $keyO) }})</label>
+                                </div>
+
+                                <div class="col-sm-10">
+                                    <input type="text" name="questions[{{ $keyQ }}][options][{{ $keyO }}]" class="form-control" placeholder="Opção" required value="{{ $option['text'] }}">
+                                </div>
                             </div>
                         @endforeach
                     </div>
                 </div>
             @endforeach
         </div>
-        <button type="button" id="add-question" class="btn btn-secondary mb-3">Adicionar Questão</button>
-        <button type="submit" class="btn btn-primary">Salvar</button>
-    </form>
-
-    <template id="question-template">
-        <div class="question mb-3 p-3 border rounded">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <label class="mb-0">Texto da Questão:</label>
-                <button type="button" class="remove-question btn btn-danger btn-sm">Remover Questão</button>
-            </div>
-            <input type="text" name="questions[1][text]" class="form-control mb-3" required>
-            <input type="hidden" name="questions[1][correct_option]" class="correct-option" value="">
-            <div class="options-container mb-3">
-                @for ($i = 0; $i < 5; $i++)
-                    <div class="option d-flex mb-2">
-                        <div class="col-1 text-center pt-2">
-                            ({{ chr(65 + $i) }})
-                        </div>
-                        <input type="text" name="questions[1][options][{{ $i }}][text]" class="form-control col-7 me-2" placeholder="Opção" required>
-                        <div class="form-check col-2">
-                            <input class="form-check-input" type="checkbox" name="questions[1][options][{{ $i }}][is_correct]" onchange="updateCorrectOption(this, 1, {{ $i }})">
-                        </div>
-                    </div>
-                @endfor
+        
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="button" id="add-question" class="btn btn-secondary mb-3">Adicionar Questão</button>
             </div>
         </div>
-    </template>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </form>
 @endsection
 
     <script>

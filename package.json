@@ -10,12 +10,19 @@
         "production": "mix --production"
     },
     "devDependencies": {
+        "@vue/compiler-sfc": "^3.3.7",
         "axios": "^1.1.2",
         "cross-env": "^7.0.3",
-        "laravel-mix": "^6.0.49"
+        "jquery-ui": "^1.13.2",
+        "laravel-mix": "^6.0.49",
+        "vue-loader": "^16.8.3"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^40.0.0",
+        "@ckeditor/ckeditor5-vue": "^5.1.0",
         "jquery": "^3.7.1",
-        "reveal.js": "^4.6.1"
+        "reveal.js": "^4.6.1",
+        "vue": "^3.3.7",
+        "vuedraggable": "^4.1.0"
     }
 }

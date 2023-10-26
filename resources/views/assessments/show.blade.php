@@ -21,7 +21,7 @@
                             <strong>{{ $loop->iteration }}.</strong> {{ $question->text }}
                             <ul>
                                 @foreach($question->options as $option)
-                                    <li>{{ $option->text }} @if($option->id == $question->correct_option) (Correta) @endif</li>
+                                    <li>{{ $option->description }} @if($option->is_correct) (Correta) @endif</li>
                                 @endforeach
                             </ul>
                         </li>
@@ -32,11 +32,11 @@
         <div class="row">
             <div class="col mb-3">
                 <label class="form-label">Criado em</label>
-                <input type="text" class="form-control" value="{{ $assessment->created_at }}" readonly>
+                <input type="text" class="form-control" value="{{ $assessment->created_at->format('d/m/Y H:i:s') }}" readonly>
             </div>
             <div class="col mb-3">
                 <label class="form-label">Atualizado em</label>
-                <input type="text" class="form-control" value="{{ $assessment->updated_at }}" readonly>
+                <input type="text" class="form-control" value="{{ $assessment->updated_at->format('d/m/Y H:i:s') }}" readonly>
             </div>
         </div>
     @endsection

@@ -17,6 +17,10 @@
         <textarea name="description" id="description" class="form-control"></textarea>
     </div>
 
+    <div class="row">
+        <vc-slide></vc-slide>
+    </div>
+
     <div class="form-group">
         <label for="course_id">Curso:</label>
         <select name="course_id" id="course_id" class="form-control" required>
