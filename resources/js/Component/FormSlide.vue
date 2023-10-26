@@ -59,7 +59,8 @@ export default defineComponent({
 <style scoped>
 .slide-preview {
     border: 1px solid #262626;
-    border-radius: 4px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     background: linear-gradient(to bottom right, #ffffff, #e0e0e0);
     /* Fundo em degradê */
@@ -78,12 +79,18 @@ export default defineComponent({
 }
 
 .slide-content h3 {
+    font-family: 'Roboto', sans-serif;
     font-size: 28px;
     margin-bottom: 10px;
     color: #333;
 }
 
+.carousel__slide--sliding {
+    transition: transform 0.5s ease-in-out;
+}
+
 .slide-content div {
+    font-family: 'Roboto', sans-serif;
     font-size: 18px;
     color: #555;
 }
