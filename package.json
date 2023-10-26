@@ -25,6 +25,6 @@
         "jquery": "^3.7.1",
         "reveal.js": "^4.6.1",
         "vue": "^3.3.7",
-        "vuedraggable": "^4.1.0"
+        "vue3-carousel": "^0.3.1"
     }
 }
